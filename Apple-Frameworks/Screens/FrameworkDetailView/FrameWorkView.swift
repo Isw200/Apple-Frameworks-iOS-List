@@ -9,20 +9,27 @@ import SwiftUI
 
 struct FrameWorkView: View {
     var framework: Framework
-    @Binding var isShowingDetailView : Bool
     @State private var isShowingSafariView: Bool = false
     
     var body: some View {
         VStack  {
-            XDismissButton(isShowingDetailView: $isShowingDetailView)
-            Spacer()
             FrameworkTitleView(framework: framework)
             .padding()
             Text(framework.description)
                 .font(.system(size: 18 , weight: .light))
                 .padding()
             Spacer()
-            AFButton(isShowingSafariView: $isShowingSafariView)
+            // AFButton(isShowingSafariView: $isShowingSafariView)
+            Button {
+                isShowingSafariView = true
+            } label: {
+                Label("Read More", systemImage: "book.fill")
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .foregroundStyle(.white)
+            .buttonBorderShape(.roundedRectangle(radius: 20))
+            .tint(.red)
         }
         .preferredColorScheme(.dark)
         // popup sheet
@@ -35,4 +42,8 @@ struct FrameWorkView: View {
             SafariView(url: URL(string: framework.urlString) ?? URL(string: "www.apple.com")!)
         })
     }
+}
+
+#Preview {
+    FrameWorkView(framework: .init(name: "SwiftUI", imageName: "swiftui", urlString: "https://www.apple.com", description: "SwiftUI is a SwiftUI-based user interface library for building apps."))
 }

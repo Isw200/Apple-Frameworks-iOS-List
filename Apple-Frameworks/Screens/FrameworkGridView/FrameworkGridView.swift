@@ -15,26 +15,18 @@ struct FrameworkGridView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: columns) {
-                    ForEach(MockData.frameworks) { framework in
+            List{
+                ForEach(MockData.frameworks) { framework in
+                    NavigationLink(value: framework) {
                         FrameworkTitleView(framework: framework)
-                            .preferredColorScheme(.dark)
-                            .onTapGesture {
-                                viewModal.selectedFramework = framework
-                            }
                     }
                 }
             }
             .navigationTitle("🍎 Frameworks")
-            .sheet(isPresented: $viewModal.isShowingDetailView) {
-                FrameWorkView(framework: viewModal.selectedFramework ?? MockData.sampleFrameWork,
-                              isShowingDetailView: $viewModal.isShowingDetailView)
+            .navigationDestination(for: Framework.self) { framework in
+                FrameWorkView(framework: framework)
             }
+            .accentColor(Color(.label))
         }
     }
-}
-
-#Preview {
-    FrameworkGridView()
 }
